@@ -9,17 +9,14 @@ import (
 )
 
 var (
-	h            bool
-	initDev      bool
-	clear        bool
-	dirName      = "trygo"
-	goModContent = `
-module trygo
-go 1.12
-	`
-	mainGoContent = `
-package main
+	h             bool
+	initDev       bool
+	clear         bool
+	dirName       string
+	mainGoContent = `package main
+
 import ()
+
 func main() {
 
 }
@@ -32,6 +29,7 @@ func ParseFlag() {
 	flag.BoolVar(&h, "h", false, "show help")
 	flag.BoolVar(&initDev, "init", false, "init a development for trying golang std module or trying open source code's quickstart \n just a new folder contains gomod file in local")
 	flag.BoolVar(&clear, "clear", false, "clear development")
+	flag.StringVar(&dirName, "n", "trygo", "name for dirname")
 	flag.Parse()
 
 }
@@ -48,6 +46,7 @@ func isPathNotExist(path string) (bool, error) {
 
 func main() {
 	ParseFlag()
+	var goModContent = fmt.Sprintf("module %s \n\ngo 1.13", dirName)
 	switch {
 	case h:
 		fmt.Println("init: init a go mod dev in local \nclear: clear local path")
@@ -114,5 +113,6 @@ func main() {
 	default:
 		fmt.Println()
 	}
+	// TODO auto cd dir
 
 }
